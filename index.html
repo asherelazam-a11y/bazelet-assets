@@ -78,9 +78,30 @@
     <h1>BAZELET</h1>
     <p class="sub">House Manager</p>
     <p class="hint">
-      לחץ על הכפתור כדי לפתוח את מערכת BAZELET.
+      באייפון: הוסף את העמוד הזה למסך הבית.
+      לאחר ההתקנה, פתיחה מהאייקון תעביר אוטומטית למערכת BAZELET.
     </p>
     <a href="https://script.google.com/macros/s/AKfycbzXUOdk8h5EGUmGmZ1RUAiCYSYridWf34YpemRxlP_D2FKm_WuZ1gLWTfQYy44ef0la/exec" target="_top" rel="noopener">פתיחת האפליקציה עכשיו</a>
   </main>
+
+  <script>
+    (function () {
+      var target = 'https://script.google.com/macros/s/AKfycbzXUOdk8h5EGUmGmZ1RUAiCYSYridWf34YpemRxlP_D2FKm_WuZ1gLWTfQYy44ef0la/exec';
+
+      var standalone =
+        (window.navigator && window.navigator.standalone === true) ||
+        (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+
+      if (standalone) {
+        window.setTimeout(function () {
+          try {
+            window.top.location.replace(target);
+          } catch (e) {
+            window.location.replace(target);
+          }
+        }, 180);
+      }
+    })();
+  </script>
 </body>
 </html>
