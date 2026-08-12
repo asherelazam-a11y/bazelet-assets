@@ -8,8 +8,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="BAZELET">
   <meta name="application-name" content="BAZELET">
-  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="./apple-touch-icon.png">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png?v=3">
+  <link rel="icon" type="image/png" href="./apple-touch-icon.png?v=3">
   <title>BAZELET House Manager</title>
   <style>
     html, body {
@@ -33,11 +33,12 @@
         max(18px, env(safe-area-inset-left));
     }
     main {
+      width: min(92vw, 430px);
       text-align: center;
       color: #0b2d63;
     }
     img {
-      width: min(56vw, 240px);
+      width: min(58vw, 250px);
       height: auto;
       display: block;
       margin: 0 auto 18px;
@@ -45,48 +46,61 @@
     }
     h1 {
       margin: 0 0 6px;
-      font-size: 30px;
+      font-size: 32px;
       letter-spacing: .04em;
     }
-    p {
+    .sub {
       margin: 0 0 22px;
-      font-size: 16px;
-      opacity: .72;
+      font-size: 18px;
+      opacity: .78;
+    }
+    .hint {
+      margin: 0 auto 18px;
+      max-width: 340px;
+      color: #4b6382;
+      font-size: 15px;
+      line-height: 1.55;
     }
     a {
       display: inline-block;
-      padding: 12px 18px;
-      border-radius: 12px;
+      padding: 13px 20px;
+      border-radius: 13px;
       background: #0b2d63;
       color: white;
       text-decoration: none;
-      font-weight: 700;
+      font-weight: 800;
     }
   </style>
 </head>
 <body>
   <main>
-    <img src="./apple-touch-icon.png" alt="BAZELET">
+    <img src="./apple-touch-icon.png?v=3" alt="BAZELET">
     <h1>BAZELET</h1>
-    <p>House Manager</p>
-    <a id="openApp" href="https://script.google.com/macros/s/AKfycbzXUOdk8h5EGUmGmZ1RUAiCYSYridWf34YpemRxlP_D2FKm_WuZ1gLWTfQYy44ef0la/exec" target="_top" rel="noopener">פתיחת האפליקציה</a>
+    <p class="sub">House Manager</p>
+    <p class="hint">
+      באייפון: הוסף את העמוד הזה למסך הבית.
+      לאחר ההתקנה, פתיחה מהאייקון תעביר אוטומטית למערכת BAZELET.
+    </p>
+    <a href="https://script.google.com/macros/s/AKfycbzXUOdk8h5EGUmGmZ1RUAiCYSYridWf34YpemRxlP_D2FKm_WuZ1gLWTfQYy44ef0la/exec" target="_top" rel="noopener">פתיחת האפליקציה עכשיו</a>
   </main>
 
   <script>
     (function () {
       var target = 'https://script.google.com/macros/s/AKfycbzXUOdk8h5EGUmGmZ1RUAiCYSYridWf34YpemRxlP_D2FKm_WuZ1gLWTfQYy44ef0la/exec';
 
-      function openBazelet() {
-        try {
-          window.top.location.href = target;
-        } catch (e) {
-          window.location.href = target;
-        }
-      }
+      var standalone =
+        (window.navigator && window.navigator.standalone === true) ||
+        (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
 
-      window.addEventListener('load', function () {
-        setTimeout(openBazelet, 350);
-      });
+      if (standalone) {
+        window.setTimeout(function () {
+          try {
+            window.top.location.replace(target);
+          } catch (e) {
+            window.location.replace(target);
+          }
+        }, 180);
+      }
     })();
   </script>
 </body>
