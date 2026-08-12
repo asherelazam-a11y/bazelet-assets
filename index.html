@@ -8,111 +8,79 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="BAZELET">
   <meta name="application-name" content="BAZELET">
-  <link rel="apple-touch-icon" href="./apple-touch-icon.png?v=4">
-  <link rel="icon" type="image/png" href="./apple-touch-icon.png?v=4">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png?v=3">
+  <link rel="icon" type="image/png" href="./apple-touch-icon.png?v=3">
   <title>BAZELET House Manager</title>
   <style>
-    html,body{
-      margin:0;
-      min-height:100%;
-      background:#f7fbff;
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    html, body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      background: #f7fbff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
     }
-    body{
-      min-height:100vh;
-      min-height:100dvh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      box-sizing:border-box;
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
       padding:
-        max(18px,env(safe-area-inset-top))
-        max(18px,env(safe-area-inset-right))
-        max(18px,env(safe-area-inset-bottom))
-        max(18px,env(safe-area-inset-left));
+        max(18px, env(safe-area-inset-top))
+        max(18px, env(safe-area-inset-right))
+        max(18px, env(safe-area-inset-bottom))
+        max(18px, env(safe-area-inset-left));
     }
-    main{
-      width:min(92vw,430px);
-      text-align:center;
-      color:#0b2d63;
+    main {
+      width: min(92vw, 430px);
+      text-align: center;
+      color: #0b2d63;
     }
-    img{
-      width:min(58vw,250px);
-      height:auto;
-      display:block;
-      margin:0 auto 18px;
-      border-radius:22%;
+    img {
+      width: min(58vw, 250px);
+      height: auto;
+      display: block;
+      margin: 0 auto 18px;
+      border-radius: 22%;
     }
-    h1{
-      margin:0 0 6px;
-      font-size:32px;
-      letter-spacing:.04em;
+    h1 {
+      margin: 0 0 6px;
+      font-size: 32px;
+      letter-spacing: .04em;
     }
-    .sub{
-      margin:0 0 22px;
-      font-size:18px;
-      opacity:.78;
+    .sub {
+      margin: 0 0 22px;
+      font-size: 18px;
+      opacity: .78;
     }
-    .hint{
-      margin:0 auto 18px;
-      max-width:350px;
-      color:#4b6382;
-      font-size:15px;
-      line-height:1.55;
+    .hint {
+      margin: 0 auto 18px;
+      max-width: 340px;
+      color: #4b6382;
+      font-size: 15px;
+      line-height: 1.55;
     }
-    a{
-      display:inline-block;
-      padding:13px 20px;
-      border-radius:13px;
-      background:#0b2d63;
-      color:white;
-      text-decoration:none;
-      font-weight:800;
+    a {
+      display: inline-block;
+      padding: 13px 20px;
+      border-radius: 13px;
+      background: #0b2d63;
+      color: white;
+      text-decoration: none;
+      font-weight: 800;
     }
   </style>
 </head>
 <body>
   <main>
-    <img src="./apple-touch-icon.png?v=4" alt="BAZELET">
+    <img src="./apple-touch-icon.png?v=3" alt="BAZELET">
     <h1>BAZELET</h1>
     <p class="sub">House Manager</p>
     <p class="hint">
-      באייפון: הוסף עמוד זה למסך הבית כאשר
-      “פתיחה ביישום רשת” כבויה.
-      לאחר ההוספה, פתיחה מהאייקון תעביר אוטומטית למערכת.
+      לחץ על הכפתור כדי לפתוח את מערכת BAZELET.
     </p>
-    <a href="https://script.google.com/macros/s/AKfycbzXUOdk8h5EGUmGmZ1RUAiCYSYridWf34YpemRxlP_D2FKm_WuZ1gLWTfQYy44ef0la/exec" rel="noopener">פתיחת האפליקציה עכשיו</a>
+    <a href="https://script.google.com/macros/s/AKfycbzXUOdk8h5EGUmGmZ1RUAiCYSYridWf34YpemRxlP_D2FKm_WuZ1gLWTfQYy44ef0la/exec" target="_top" rel="noopener">פתיחת האפליקציה עכשיו</a>
   </main>
-
-  <script>
-    (function () {
-      var target = 'https://script.google.com/macros/s/AKfycbzXUOdk8h5EGUmGmZ1RUAiCYSYridWf34YpemRxlP_D2FKm_WuZ1gLWTfQYy44ef0la/exec';
-      var params = new URLSearchParams(window.location.search);
-      var isHomeLaunch = params.get('launch') === '1';
-
-      if (isHomeLaunch) {
-        window.setTimeout(function () {
-          window.location.replace(target);
-        }, 120);
-        return;
-      }
-
-      /*
-       * Prepare the URL that iOS will save to the Home Screen
-       * without navigating away from this setup page.
-       */
-      try {
-        var preparedUrl =
-          window.location.pathname +
-          '?launch=1';
-
-        window.history.replaceState(
-          null,
-          '',
-          preparedUrl
-        );
-      } catch (error) {}
-    })();
-  </script>
 </body>
 </html>
