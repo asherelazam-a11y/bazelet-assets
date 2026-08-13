@@ -8,7 +8,6 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="BAZELET">
 <meta name="application-name" content="BAZELET">
-<link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-v4.png">
 <link rel="icon" type="image/png" href="./apple-touch-icon-v4.png">
 <title>BAZELET House Manager</title>
@@ -33,6 +32,51 @@ h1{margin:0 0 6px;font-size:34px;font-weight:900;letter-spacing:.05em}
 body.standalone .install{display:none}
 body.standalone .launch{display:flex}
 </style>
+<script>
+(function(){
+  var standalone =
+    (window.navigator && window.navigator.standalone === true) ||
+    (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+
+  if (!standalone) return;
+
+  var key = 'bazeletLauncherDeviceV427';
+  var device = '';
+
+  try {
+    device = localStorage.getItem(key) || '';
+  } catch (e) {}
+
+  if (!/^[A-Za-z0-9._:-]{16,160}$/.test(device)) {
+    var randomPart = '';
+
+    try {
+      if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+        randomPart = window.crypto.randomUUID();
+      }
+    } catch (e) {}
+
+    if (!randomPart) {
+      randomPart =
+        Date.now().toString(36) + '-' +
+        Math.random().toString(36).slice(2) + '-' +
+        Math.random().toString(36).slice(2);
+    }
+
+    device = 'bazelet-' + randomPart;
+
+    try {
+      localStorage.setItem(key, device);
+    } catch (e) {}
+  }
+
+  window.location.replace(
+    'https://script.google.com/macros/s/AKfycbzXUOdk8h5EGUmGmZ1RUAiCYSYridWf34YpemRxlP_D2FKm_WuZ1gLWTfQYy44ef0la/exec' +
+    '?bazeletDevice=' +
+    encodeURIComponent(device)
+  );
+})();
+</script>
 </head>
 <body>
 <section class="install">
@@ -60,9 +104,16 @@ body.standalone .launch{display:flex}
   if(!standalone) return;
   document.body.classList.add('standalone');
   window.setTimeout(function(){
-    try{window.top.location.replace(target);}
-    catch(e){window.location.replace(target);}
-  },80);
+    var key = 'bazeletLauncherDeviceV427';
+    var device = '';
+    try { device = localStorage.getItem(key) || ''; } catch (e) {}
+    var destination = target;
+    if (device) {
+      destination += '?bazeletDevice=' + encodeURIComponent(device);
+    }
+    try{window.top.location.replace(destination);}
+    catch(e){window.location.replace(destination);}
+  },20);
 })();
 </script>
 </body>
