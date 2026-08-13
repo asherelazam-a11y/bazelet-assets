@@ -32,51 +32,7 @@ h1{margin:0 0 6px;font-size:34px;font-weight:900;letter-spacing:.05em}
 body.standalone .install{display:none}
 body.standalone .launch{display:flex}
 </style>
-<script>
-(function(){
-  var standalone =
-    (window.navigator && window.navigator.standalone === true) ||
-    (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
 
-  if (!standalone) return;
-
-  var key = 'bazeletLauncherDeviceV427';
-  var device = '';
-
-  try {
-    device = localStorage.getItem(key) || '';
-  } catch (e) {}
-
-  if (!/^[A-Za-z0-9._:-]{16,160}$/.test(device)) {
-    var randomPart = '';
-
-    try {
-      if (window.crypto && typeof window.crypto.randomUUID === 'function') {
-        randomPart = window.crypto.randomUUID();
-      }
-    } catch (e) {}
-
-    if (!randomPart) {
-      randomPart =
-        Date.now().toString(36) + '-' +
-        Math.random().toString(36).slice(2) + '-' +
-        Math.random().toString(36).slice(2);
-    }
-
-    device = 'bazelet-' + randomPart;
-
-    try {
-      localStorage.setItem(key, device);
-    } catch (e) {}
-  }
-
-  window.location.replace(
-    'https://script.google.com/macros/s/AKfycbzXUOdk8h5EGUmGmZ1RUAiCYSYridWf34YpemRxlP_D2FKm_WuZ1gLWTfQYy44ef0la/exec' +
-    '?bazeletDevice=' +
-    encodeURIComponent(device)
-  );
-})();
-</script>
 </head>
 <body>
 <section class="install">
@@ -113,7 +69,7 @@ body.standalone .launch{display:flex}
     }
     try{window.top.location.replace(destination);}
     catch(e){window.location.replace(destination);}
-  },20);
+  },550);
 })();
 </script>
 </body>
