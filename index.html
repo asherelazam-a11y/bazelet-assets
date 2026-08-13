@@ -15,8 +15,13 @@
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
 body{min-height:100vh;min-height:100dvh}
+
 .install{
-  min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;
+  min-height:100vh;
+  min-height:100dvh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   padding:max(22px,env(safe-area-inset-top)) max(18px,env(safe-area-inset-right)) max(22px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left));
   background:radial-gradient(circle at 50% 0,rgba(225,239,255,.75),transparent 42%),#f7fbff
 }
@@ -30,28 +35,23 @@ h1{margin:0 0 6px;font-size:34px;font-weight:900;letter-spacing:.05em}
 .open-app{display:inline-flex;align-items:center;justify-content:center;min-width:235px;padding:14px 24px;border-radius:14px;background:linear-gradient(135deg,#0b2d63,#123e82);color:#fff;text-decoration:none;font-size:16px;font-weight:800;box-shadow:0 10px 24px rgba(11,45,99,.18)}
 
 .launch{
-  position:fixed;inset:0;display:none;align-items:center;justify-content:center;overflow:hidden;
-  padding:max(28px,env(safe-area-inset-top)) 22px max(28px,env(safe-area-inset-bottom));
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
   background:
-    radial-gradient(ellipse at 50% -8%,rgba(24,88,184,.72) 0%,rgba(7,31,70,.46) 29%,rgba(2,9,22,.97) 67%),
-    linear-gradient(180deg,#071a38 0%,#020914 55%,#00040b 100%);
-  z-index:1000;color:#fff
+    radial-gradient(circle at 50% 42%,rgba(24,88,184,.28),transparent 34%),
+    linear-gradient(180deg,#071a38 0%,#020914 60%,#00040b 100%);
+  z-index:1000
 }
-.launch:before,.launch:after{
-  content:"";position:absolute;left:-22%;right:-22%;height:220px;border-radius:50%;transform:rotate(-7deg);
-  pointer-events:none;border:1px solid rgba(232,180,73,.32)
-}
-.launch:before{bottom:14%;box-shadow:0 0 18px rgba(232,180,73,.10)}
-.launch:after{bottom:6%;left:-30%;right:-6%;border-color:rgba(232,180,73,.18)}
-.launch-inner{position:relative;z-index:2;width:min(100%,520px);text-align:center;transform:translateY(-2vh)}
 .launch-logo{
-  width:min(72vw,310px);height:auto;display:block;margin:0 auto 26px;border-radius:24%;
-  box-shadow:0 22px 58px rgba(0,0,0,.48),0 0 40px rgba(35,113,255,.12)
+  width:min(62vw,270px);
+  height:auto;
+  display:block;
+  border-radius:24%;
+  box-shadow:0 20px 54px rgba(0,0,0,.48),0 0 32px rgba(35,113,255,.10)
 }
-.launch-title{font-size:clamp(32px,8vw,44px);font-weight:900;letter-spacing:.08em;color:#e9c16e;margin:0 0 5px;direction:ltr}
-.launch-sub{font-size:19px;letter-spacing:.04em;color:#f5f7fb;margin:0;direction:ltr}
-.launch-tag{margin-top:20px;font-size:20px;line-height:1.32;color:#f5f7fb;direction:ltr}
-.launch-tag .gold{color:#e8b44a}
 body.standalone .install{display:none}
 body.standalone .launch{display:flex}
 </style>
@@ -69,15 +69,7 @@ body.standalone .launch{display:flex}
 </section>
 
 <section class="launch" aria-hidden="true">
-<div class="launch-inner">
-<img class="launch-logo" src="./apple-touch-icon-v4.png" alt="">
-<div class="launch-title">BAZELET</div>
-<p class="launch-sub">House Manager</p>
-<div class="launch-tag">
-  <div>Smart Management.</div>
-  <div class="gold">Stronger Communities.</div>
-</div>
-</div>
+  <img class="launch-logo" src="./apple-touch-icon-v4.png" alt="">
 </section>
 
 <script>
@@ -93,7 +85,7 @@ body.standalone .launch{display:flex}
   window.setTimeout(function(){
     try{window.top.location.replace('https://script.google.com/macros/s/AKfycbzXUOdk8h5EGUmGmZ1RUAiCYSYridWf34YpemRxlP_D2FKm_WuZ1gLWTfQYy44ef0la/exec');}
     catch(e){window.location.replace('https://script.google.com/macros/s/AKfycbzXUOdk8h5EGUmGmZ1RUAiCYSYridWf34YpemRxlP_D2FKm_WuZ1gLWTfQYy44ef0la/exec');}
-  },80);
+  },35);
 })();
 </script>
 </body>
