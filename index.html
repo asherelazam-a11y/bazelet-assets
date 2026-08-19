@@ -3,119 +3,289 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0b2d63">
+
+<meta name="theme-color" content="#061629">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="BAZELET">
 <meta name="application-name" content="BAZELET">
+
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-v4.png">
 <link rel="icon" type="image/png" href="./apple-touch-icon-v4.png">
+
 <title>BAZELET House Manager</title>
+
 <style>
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;min-height:100%;background:#f7fbff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
-body{min-height:100vh;min-height:100dvh}
-.install{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:22px 18px;background:radial-gradient(circle at 50% 0,rgba(225,239,255,.75),transparent 42%),#f7fbff}
-main{width:min(92vw,430px);text-align:center;color:#0b2d63}
-.logo{width:min(61vw,260px);height:auto;display:block;margin:0 auto 20px;border-radius:22%;box-shadow:0 14px 30px rgba(11,45,99,.14)}
-h1{margin:0 0 6px;font-size:34px;font-weight:900;letter-spacing:.05em}
-.sub{margin:0 0 27px;font-size:19px;color:#557095}
-.divider{width:110px;height:2px;margin:0 auto 25px;border-radius:999px;background:linear-gradient(90deg,transparent,#b9d5f6,transparent)}
-.hint{margin:0 auto 27px;max-width:380px;color:#173c72;font-size:17px;line-height:1.75;text-align:center}
-.open-app{display:inline-flex;align-items:center;justify-content:center;min-width:235px;padding:14px 24px;border-radius:14px;background:#0b2d63;color:#fff;text-decoration:none;font-size:16px;font-weight:800}
-.launch{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 28%,#123f78 0,#071b35 38%,#020914 100%);padding:28px;z-index:100}
-.launch-inner{text-align:center;color:#fff;transform:translateY(-2vh)}
-.launch-title{font-size:38px;font-weight:900;letter-spacing:.08em;color:#e9c16e;margin:0 0 7px;direction:ltr}
-.launch-sub{font-size:19px;letter-spacing:.06em;color:#fff;opacity:.94;margin:0 0 18px;direction:ltr}
-.launch-tag{font-size:19px;line-height:1.35;color:#fff;direction:ltr}
-.launch-tag .gold{color:#e8b44a}
-body.standalone .install{display:none}
-body.standalone .launch{display:flex}
+* {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  background: #061629;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #061629;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+}
+
+/*
+ * This page is shown only when opened normally in a browser.
+ * When launched from the installed Home Screen icon,
+ * JavaScript redirects immediately to BAZELET.
+ */
+.install {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px 18px;
+  background:
+    radial-gradient(
+      circle at 50% 0,
+      rgba(225,239,255,.75),
+      transparent 42%
+    ),
+    #f7fbff;
+}
+
+main {
+  width: min(92vw, 430px);
+  text-align: center;
+  color: #0b2d63;
+}
+
+.logo {
+  width: min(61vw, 260px);
+  height: auto;
+  display: block;
+  margin: 0 auto 20px;
+  border-radius: 22%;
+  box-shadow: 0 14px 30px rgba(11,45,99,.14);
+}
+
+h1 {
+  margin: 0 0 6px;
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: .05em;
+}
+
+.sub {
+  margin: 0 0 27px;
+  font-size: 19px;
+  color: #557095;
+}
+
+.divider {
+  width: 110px;
+  height: 2px;
+  margin: 0 auto 25px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #b9d5f6,
+    transparent
+  );
+}
+
+.hint {
+  margin: 0 auto 27px;
+  max-width: 380px;
+  color: #173c72;
+  font-size: 17px;
+  line-height: 1.75;
+  text-align: center;
+}
+
+.open-app {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 235px;
+  padding: 14px 24px;
+  border-radius: 14px;
+  background: #0b2d63;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/*
+ * Critical first paint for installed iPhone/iPad launcher.
+ * No white page and no legacy splash.
+ */
+html.standalone,
+html.standalone body {
+  background: #061629 !important;
+}
+
+html.standalone body {
+  visibility: hidden;
+}
 </style>
+
 <script>
-(function(){
+(function () {
   var standalone =
-    (window.navigator && window.navigator.standalone === true) ||
-    (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+    (
+      window.navigator &&
+      window.navigator.standalone === true
+    ) ||
+    (
+      window.matchMedia &&
+      window.matchMedia(
+        '(display-mode: standalone)'
+      ).matches
+    );
 
-  if (!standalone) return;
+  /*
+   * Normal browser visit:
+   * leave the installation page visible.
+   */
+  if (!standalone) {
+    return;
+  }
 
-  var key = 'bazeletLauncherDeviceV427';
+  /*
+   * Installed launcher:
+   * paint navy immediately and redirect once.
+   */
+  document.documentElement.classList.add(
+    'standalone'
+  );
+
+  document.documentElement.style.background =
+    '#061629';
+
+  var target =
+    'https://script.google.com/macros/s/AKfycbzXUOdk8h5EGUmGmZ1RUAiCYSYridWf34YpemRxlP_D2FKm_WuZ1gLWTfQYy44ef0la/exec';
+
+  /*
+   * Preserve the existing BAZELET device identity.
+   * This is required by the Apps Script authorization flow.
+   */
+  var key =
+    'bazeletLauncherDeviceV427';
+
   var device = '';
 
   try {
-    device = localStorage.getItem(key) || '';
-  } catch (e) {}
+    device =
+      localStorage.getItem(key) || '';
+  } catch (error) {}
 
-  if (!/^[A-Za-z0-9._:-]{16,160}$/.test(device)) {
+  if (
+    !/^[A-Za-z0-9._:-]{16,160}$/.test(
+      device
+    )
+  ) {
     var randomPart = '';
 
     try {
-      if (window.crypto && typeof window.crypto.randomUUID === 'function') {
-        randomPart = window.crypto.randomUUID();
+      if (
+        window.crypto &&
+        typeof window.crypto.randomUUID ===
+          'function'
+      ) {
+        randomPart =
+          window.crypto.randomUUID();
       }
-    } catch (e) {}
+    } catch (error) {}
 
     if (!randomPart) {
       randomPart =
-        Date.now().toString(36) + '-' +
-        Math.random().toString(36).slice(2) + '-' +
-        Math.random().toString(36).slice(2);
+        Date.now().toString(36) +
+        '-' +
+        Math.random()
+          .toString(36)
+          .slice(2) +
+        '-' +
+        Math.random()
+          .toString(36)
+          .slice(2);
     }
 
-    device = 'bazelet-' + randomPart;
+    device =
+      'bazelet-' + randomPart;
 
     try {
-      localStorage.setItem(key, device);
-    } catch (e) {}
+      localStorage.setItem(
+        key,
+        device
+      );
+    } catch (error) {}
   }
 
+  /*
+   * ONE redirect only.
+   * No timeout.
+   * No legacy launch screen.
+   */
   window.location.replace(
-    'https://script.google.com/macros/s/AKfycbzXUOdk8h5EGUmGmZ1RUAiCYSYridWf34YpemRxlP_D2FKm_WuZ1gLWTfQYy44ef0la/exec' +
+    target +
     '?bazeletDevice=' +
     encodeURIComponent(device)
   );
 })();
 </script>
 </head>
+
 <body>
+
 <section class="install">
-<main>
-<img class="logo" src="./apple-touch-icon-v4.png" alt="BAZELET House Manager">
-<h1>BAZELET</h1>
-<p class="sub">House Manager</p>
-<div class="divider"></div>
-<div class="hint"><strong>להתקנה במסך הבית:</strong><br>הוסף את העמוד הזה למסך הבית במכשיר שלך.<br>לאחר ההתקנה, פתיחה מהאייקון תעביר אוטומטית<br>למערכת BAZELET.</div>
-<a class="open-app" href="https://script.google.com/macros/s/AKfycbzXUOdk8h5EGUmGmZ1RUAiCYSYridWf34YpemRxlP_D2FKm_WuZ1gLWTfQYy44ef0la/exec" target="_top" rel="noopener">פתיחת האפליקציה עכשיו</a>
-</main>
+  <main>
+
+    <img
+      class="logo"
+      src="./apple-touch-icon-v4.png"
+      alt="BAZELET House Manager"
+    >
+
+    <h1>BAZELET</h1>
+
+    <p class="sub">
+      House Manager
+    </p>
+
+    <div class="divider"></div>
+
+    <div class="hint">
+      <strong>
+        להתקנה במסך הבית:
+      </strong>
+      <br>
+      הוסף את העמוד הזה למסך הבית
+      במכשיר שלך.
+      <br>
+      לאחר ההתקנה, פתיחה מהאייקון
+      תעביר אוטומטית
+      <br>
+      למערכת BAZELET.
+    </div>
+
+    <a
+      class="open-app"
+      href="https://script.google.com/macros/s/AKfycbzXUOdk8h5EGUmGmZ1RUAiCYSYridWf34YpemRxlP_D2FKm_WuZ1gLWTfQYy44ef0la/exec"
+      target="_top"
+      rel="noopener"
+    >
+      פתיחת האפליקציה עכשיו
+    </a>
+
+  </main>
 </section>
-<section class="launch" aria-hidden="true">
-<div class="launch-inner">
-<div class="launch-title">BAZELET</div>
-<p class="launch-sub">House Manager</p>
-<div class="launch-tag"><div>Smart Management.</div><div class="gold">Stronger Communities.</div></div>
-</div>
-</section>
-<script>
-(function(){
-  var target="https://script.google.com/macros/s/AKfycbzXUOdk8h5EGUmGmZ1RUAiCYSYridWf34YpemRxlP_D2FKm_WuZ1gLWTfQYy44ef0la/exec";
-  var standalone=(window.navigator&&window.navigator.standalone===true)||
-    (window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches);
-  if(!standalone) return;
-  document.body.classList.add('standalone');
-  window.setTimeout(function(){
-    var key = 'bazeletLauncherDeviceV427';
-    var device = '';
-    try { device = localStorage.getItem(key) || ''; } catch (e) {}
-    var destination = target;
-    if (device) {
-      destination += '?bazeletDevice=' + encodeURIComponent(device);
-    }
-    try{window.top.location.replace(destination);}
-    catch(e){window.location.replace(destination);}
-  },20);
-})();
-</script>
+
 </body>
 </html>
