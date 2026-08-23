@@ -140,54 +140,48 @@ html.standalone body {
 
 <script>
 (function () {
-  var standalone =
-    (
-      window.navigator &&
-      window.navigator.standalone === true
-    ) ||
-    (
-      window.matchMedia &&
-      window.matchMedia(
-        '(display-mode: standalone)'
-      ).matches
-    );
-
-  /*
-   * Normal browser visit:
-   * leave the installation page visible.
-   */
-  if (!standalone) {
-    return;
-  }
-
-  /*
-   * Installed launcher:
-   * paint navy immediately and redirect once.
-   */
-  document.documentElement.classList.add(
-    'standalone'
-  );
-
-  document.documentElement.style.background =
-    '#061629';
-
   var target =
     'https://script.google.com/macros/s/AKfycbzXUOdk8h5EGUmGmZ1RUAiCYSYridWf34YpemRxlP_D2FKm_WuZ1gLWTfQYy44ef0la/exec';
 
-  /*
-   * Preserve the existing BAZELET device identity.
-   * This is required by the Apps Script authorization flow.
-   */
   var key =
     'bazeletLauncherDeviceV427';
 
   var device = '';
 
+  /*
+   * First preference:
+   * device ID already embedded in the installation URL.
+   */
   try {
+    var params =
+      new URLSearchParams(
+        window.location.search || ''
+      );
+
     device =
-      localStorage.getItem(key) || '';
+      String(
+        params.get('bazeletDevice') || ''
+      ).trim();
   } catch (error) {}
 
+  /*
+   * Second preference:
+   * stable launcher localStorage ID.
+   */
+  if (
+    !/^[A-Za-z0-9._:-]{16,160}$/.test(
+      device
+    )
+  ) {
+    try {
+      device =
+        localStorage.getItem(key) || '';
+    } catch (error) {}
+  }
+
+  /*
+   * Create a new stable ID only when necessary.
+   */
   if (
     !/^[A-Za-z0-9._:-]{16,160}$/.test(
       device
@@ -221,20 +215,77 @@ html.standalone body {
 
     device =
       'bazelet-' + randomPart;
-
-    try {
-      localStorage.setItem(
-        key,
-        device
-      );
-    } catch (error) {}
   }
 
   /*
-   * ONE redirect only.
-   * No timeout.
-   * No legacy launch screen.
+   * Persist the same ID in launcher storage.
    */
+  try {
+    localStorage.setItem(
+      key,
+      device
+    );
+  } catch (error) {}
+
+  /*
+   * Also place the ID into the installation URL.
+   * Safari "Add to Home Screen" will therefore preserve it.
+   */
+  try {
+    var currentUrl =
+      new URL(window.location.href);
+
+    if (
+      currentUrl.searchParams.get(
+        'bazeletDevice'
+      ) !== device
+    ) {
+      currentUrl.searchParams.set(
+        'bazeletDevice',
+        device
+      );
+
+      window.history.replaceState(
+        null,
+        '',
+        currentUrl.pathname +
+          currentUrl.search +
+          currentUrl.hash
+      );
+    }
+  } catch (error) {}
+
+  var standalone =
+    (
+      window.navigator &&
+      window.navigator.standalone === true
+    ) ||
+    (
+      window.matchMedia &&
+      window.matchMedia(
+        '(display-mode: standalone)'
+      ).matches
+    );
+
+  /*
+   * Browser visit:
+   * remain on the installation page.
+   */
+  if (!standalone) {
+    return;
+  }
+
+  /*
+   * Installed Home Screen launcher:
+   * forward the SAME stable ID to Apps Script.
+   */
+  document.documentElement.classList.add(
+    'standalone'
+  );
+
+  document.documentElement.style.background =
+    '#061629';
+
   window.location.replace(
     target +
     '?bazeletDevice=' +
@@ -295,34 +346,33 @@ html.standalone body {
     <section style="
       color:#172536;
       font-size:17px;
-      line-height:1.45;
+      line-height:1.40;
+      text-align:center;
     ">
 
       <div style="
         color:#123d78;
         font-size:20px;
         font-weight:800;
-        margin:0 0 10px;
+        margin:0 0 14px;
       ">להתקנת האפליקציה במסך הבית:</div>
 
-      <div style="margin:0 0 3px;">
-        הוסף אייקון <strong>BAZELET</strong> למסך הבית במכשיר שלך כך:
-      </div>
-
-      <div style="margin:0 0 3px;">
-        <strong>באייפון</strong> – לחיצה על&nbsp;&nbsp;”...“ ואז בחר ”שיתוף“
+      <div style="margin:0;">
+        <strong>באייפון</strong> – לחיצה על&nbsp;&nbsp;״⋯״ בחר ”שיתוף“
         <br>
         ואז ”הוסף למסך הבית“.
-      </div>
-
-      <div style="margin:0 0 3px;">
-        <strong>באנדרואיד</strong> – לחיצה על ”⋮“ ואז בחר ”הוסף דף ל-“ 
+        <br>
+        <strong>באנדרואיד</strong> – לחיצה על ”⋮“ בחר ”הוסף דף ל-“
         <br>
         ואז ”מסך הבית“.
       </div>
 
-      <div style="margin:0;">
-        לאחר ההתקנה, פתיחה מהאייקון תעביר אוטומטית למערכת <strong>BAZELET</strong>.
+      <div style="
+        margin:14px 0 0;
+      ">
+        לאחר ההתקנה, פתיחה מהאייקון תעביר
+        <br>
+        אוטומטית למערכת <strong>BAZELET</strong>
       </div>
 
     </section>
